@@ -13,7 +13,7 @@ declare var $: any;
 export class PortComponent implements OnInit {
   ports: any[] = [];
   name: string = "";
-  portId: string = "";
+  portId: any = null;
   code: string= ""
   now:Date = new Date();
   pageNum: number = 0;
@@ -39,7 +39,7 @@ export class PortComponent implements OnInit {
 
   GetPorts(){
     let params = new HttpParams();
-    params = params.append("Id",this.portId?.trim());
+    params = params.append("Id",this.portId == null ? 0 : this.portId );
     params = params.append("Name",this.name?.trim());
     params = params.append("Code",this.code?.trim());
     params = params.append("PageNum",this.pageNum.toString());
