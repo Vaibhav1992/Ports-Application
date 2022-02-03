@@ -6,6 +6,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PortsDAL\PortsDAL.csproj" />
+    <ProjectReference Include="..\PortsService\PortsService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Ports.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

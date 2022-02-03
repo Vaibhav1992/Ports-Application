@@ -6,15 +6,14 @@ namespace PortsDAL
     public interface IPortsRepository
     {
 
-        public List<DbPort> GetAllPorts();
+        public IEnumerable<DbPort> GetAllPorts(int pageNum, int recordsPerPage);
 
-        public List<DbPort> GetPorts(string searchTerm);
-
-        public Location GetLocation(int portId);
+        public IEnumerable<DbPort> GetPorts(PortQuery searchTerm);
 
         public void AddPort(DbPort port);
 
-        public bool DeletePort(int portId);
-      
+        public bool DeletePort(string portId);
+        public int GetPortsCount();
+        public string GetPortName(string portCode);
     }
 }

@@ -6,7 +6,7 @@ namespace PortsDAL.Models
 {
     public class DbPort
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string PortCode { get; set; }
         public string UnctadPortCode { get; set; }

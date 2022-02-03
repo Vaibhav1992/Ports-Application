@@ -1,0 +1,22 @@
+<div id="supernavbar" >
+  <div class="ui divider"></div>
+  <h2 class="ui header">Ports Application</h2>
+  <div class="ui divider"></div>
+  <div class="ui small inverted main menu" style="margin-bottom: 20px;">
+    <a
+      class="item"
+      id="lnkIndex"
+      routerLinkActive="active"
+      [routerLink]="['/dashboard']"
+    >
+      <i class="home icon"></i>
+      Back to Dashboard
+    </a>
+
+    <span class="right item" id="spnCurrentTime">{{now |date:'medium': 'UTC'}}</span>
+
+  </div>
+</div>
+
+<div id="map" style="width: auto; height: 550px; position: relative; overflow: hidden;"></div>
+

@@ -1,6 +1,8 @@
 ﻿using PortsDAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace PortsDAL
 {
@@ -13,45 +15,58 @@ namespace PortsDAL
             _context = fileHandler;
         }
 
-        public List<DbPort> GetAllPorts()
+        public int GetPortsCount()
         {
-            return _context.Ports;
+            return _context.Ports.Count;
         }
 
-        public List<DbPort> GetPorts(string searchTerm)
+        public IEnumerable<DbPort> GetAllPorts(int pageNum, int recordsPerPage)
         {
-            return _context.Ports.FindAll(
-                x => string.Equals(x.ID.ToString(), searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                 string.Equals(x.Name, searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                 string.Equals(x.PortCode, searchTerm, StringComparison.OrdinalIgnoreCase)
-                 );
+            return _context.Ports.Skip(pageNum*recordsPerPage).Take(recordsPerPage);
         }
 
-        public Location GetLocation(int portId)
+        public IEnumerable<DbPort> GetPorts(PortQuery query)
         {
-            var port = _context.Ports.Find(
-              x => x.ID == portId
-              );
-            return new Location()
+            var filteredData = _context.Ports;
+            if(!string.IsNullOrEmpty(query.Id))
             {
-                Latitude = port.Latitude,
-                Longitude = port.Longitude
-            };
+                filteredData = filteredData.FindAll(x => string.Equals(x.ID.ToString(), query.Id, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(query.Name))
+            {
+                filteredData = filteredData.FindAll(x => string.Equals(x.Name, query.Name, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(query.Code))
+            {
+                filteredData = filteredData.FindAll(x => string.Equals(x.PortCode, query.Code, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return filteredData.Skip(query.PageNum * query.RecordsPerPage).Take(query.RecordsPerPage);
         }
 
         public void AddPort(DbPort port)
         {
+            if(_context.Ports.Exists(x => x.ID == port.ID)) {
+                throw new ArgumentException("Port with given ID already exists.");
+            }
             _context.Ports.Add(port);
             _context.Save();
         }
 
-        public bool DeletePort(int portId)
+        public bool DeletePort(string portId)
         {
             var status = false;
             var port = _context.Ports.Find(x=>x.ID == portId);
             status = _context.Ports.Remove(port);
             _context.Save();
             return status;
+        }
+
+        public string GetPortName(string portCode)
+        {
+            var port = _context.Ports.FirstOrDefault(x => x.PortCode == portCode);
+            if (port != null) return port.Name;
+            return string.Empty;
         }
 
     }

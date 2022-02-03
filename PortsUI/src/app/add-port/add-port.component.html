@@ -1,0 +1,175 @@
+<div id="supernavbar">
+  <div class="ui divider"></div>
+  <h2 class="ui header">Ports Application</h2>
+  <div class="ui divider"></div>
+  <div class="ui small inverted main menu" style="margin-bottom: 20px">
+    <a
+      class="item"
+      id="lnkIndex"
+      routerLinkActive="active"
+      [routerLink]="['/dashboard']"
+    >
+      <i class="home icon"></i>
+      Dashboard
+    </a>
+
+    <a class="item" id="lnkIndex" [routerLink]="['/add']">
+      <i class="map icon"></i>
+      Add New Port
+    </a>
+
+    <span class="right item" id="spnCurrentTime">{{
+      now | date: "medium":"UTC"
+    }}</span>
+  </div>
+</div>
+
+<div id="divConfigEdit">
+  <div class="ui big breadcrumb" style="margin-bottom: 20px">
+    <a class="section">Ports</a>
+    <i class="right chevron icon divider"></i>
+    <div class="active section">Add</div>
+  </div>
+  <form
+    [formGroup]="editForm"
+    (ngSubmit)="onSubmit(editForm)"
+    id="frmMain"
+    class="ui form segment"
+  >
+    <div class="ui form">
+      <div class="fields">
+        <div class="three field wide required field">
+          <label>ID</label>
+          <input
+            type="text"
+            formControlName="ID"
+            id="txtId"
+            placeholder="Unique Identifier"
+          />
+        </div>
+        <div class="three field wide required field">
+          <label>Name</label>
+          <input
+            name="Name"
+            formControlName="Name"
+            type="text"
+            id="txtName"
+            placeholder="Port Name"
+          />
+        </div>
+      </div>
+      <div class="fields">
+        <div class="three field wide required field">
+          <label>PortCode</label>
+          <input
+            name="PortCode"
+            formControlName="PortCode"
+            type="text"
+            id="txtPortCode"
+            placeholder="Five-letter code identifying a port"
+            maxlength="5"
+            (change)="parsePortCode()"
+          />
+          <span *ngIf="(editForm.controls['PortCode'].errors || editForm.controls['Country'].errors) && editForm.controls['PortCode'].dirty" style="color: red">
+            PortCode must be 5 characters long and Country code should be valid.
+          </span>
+        </div>
+        <div class="three field wide required field">
+          <label>UnctadPortCode</label>
+          <input
+            name="UnctadPortCode"
+            formControlName="UnctadPortCode"
+            type="text"
+            id="txtUnctadPortCode"
+            placeholder="Three-letter code representing a location of a port in a country"
+            readonly
+          />
+        </div>
+        <div class="three field wide required field">
+          <label>Country</label>
+          <input
+            name="Country"
+            formControlName="Country"
+            type="text"
+            id="txtCountry"
+            placeholder="Country"
+            readonly
+          />
+        </div>
+      </div>
+      <div class="fields">
+        <div class="three field wide field">
+          <label>Latitude</label>
+          <input
+            name="Latitude"
+            formControlName="Latitude"
+            type="text"
+            id="txtLatitude"
+            placeholder="Geographic coordinate representing the north-south position of the port"
+          />
+          <span *ngIf="editForm.controls['Latitude'].errors" style="color: red">
+            Latitude should be in proper format. Ex 55,03
+          </span>
+        </div>
+        <div class="three field wide field">
+          <label>Longitude</label>
+          <input
+            name="Longitude"
+            formControlName="Longitude"
+            type="text"
+            id="txtLongitude"
+            placeholder="Geographic coordinate representing the east-west position of the port"
+          />
+          <span *ngIf="editForm.controls['Latitude'].errors" style="color: red">
+            Longitude should be in proper format. Ex 55,03
+          </span>
+        </div>
+      </div>
+      <div class="fields">
+        <div class="six field wide field">
+          <label>Url</label>
+          <input
+            name="Url"
+            formControlName="Url"
+            type="url"
+            id="Url"
+            placeholder="Web address pointing to a port's homepage"
+          />
+          <span *ngIf="editForm.controls['Url'].errors" style="color: red">
+            Url should be valid
+          </span>
+        </div>
+
+      </div>
+      <div class="fields">
+        <div class="three field wide field">
+          <label>MainPortCode</label>
+          <input
+            name="MainPortCode"
+            formControlName="MainPortCode"
+            type="text"
+            id="MainPortCode"
+            maxlength="5"
+            placeholder="Five-letter code identifying a main port"
+          />
+          <span *ngIf="editForm.controls['MainPortCode'].errors && editForm.controls['MainPortCode'].dirty" style="color: red">
+            PortCode must be 5 characters long and Country code should be valid.
+          </span>
+        </div>
+      </div>
+      <div class="fields">
+        <div class="two field wide">
+          <button
+            id="btnSaveConfig"
+            [disabled]="editForm.errors || editForm.invalid"
+            class="positive big ui button"
+            type="submit"
+          >
+            <i class="save icon"></i>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

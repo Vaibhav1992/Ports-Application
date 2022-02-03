@@ -15,7 +15,6 @@ namespace PortsDAL.Handlers
             Init();
         }
 
-
         public List<DbPort> Ports { get; set; }
 
         void Init()

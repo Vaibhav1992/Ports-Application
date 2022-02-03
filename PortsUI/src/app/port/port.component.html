@@ -1,0 +1,153 @@
+<div id="supernavbar">
+  <div class="ui divider"></div>
+  <h2 class="ui header">Ports Application</h2>
+  <div class="ui divider"></div>
+  <div class="ui small inverted main menu" style="margin-bottom: 20px">
+    <a
+      class="item"
+      id="lnkIndex"
+      routerLinkActive="active"
+      [routerLink]="['/dashboard']"
+    >
+      <i class="home icon"></i>
+      Dashboard
+    </a>
+
+    <a class="item" id="lnkIndex" [routerLink]="['/add']">
+      <i class="map icon"></i>
+      Add New Port
+    </a>
+
+    <span class="right item" id="spnCurrentTime">{{
+      now | date: "medium":"UTC"
+    }}</span>
+  </div>
+</div>
+
+<!-- <div class="ui form segment">
+  <div class="fields">
+    <div class="five wide field">
+      <div class="field">
+        <div class="ui buttons">
+          <a class="ui right labeled icon primary button" [routerLink]="['/admin/configurations/edit/']">
+            Add New
+            <i class="plus icon"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div id="divPurchases" class="ui form">
+  <div class="ui form segment">
+    <div class="ui field">
+      <label>Enter the values to search for:</label>
+    </div>
+    <div class="four fields">
+      <div class="six wide field">
+        <label>Port ID</label>
+        <div class="ui input">
+          <input
+            placeholder="Port ID"
+            id="valuePortID"
+            type="text"
+            [(ngModel)]="portId"
+            (keyup.enter)="search()"
+          />
+        </div>
+      </div>
+      <div class="six wide field">
+        <label>Port Name</label>
+        <div class="ui input">
+          <input
+            placeholder="Port Name"
+            id="valueNameID"
+            type="text"
+            [(ngModel)]="name"
+            (keyup.enter)="search()"
+          />
+        </div>
+      </div>
+      <div class="six wide field">
+        <label>Port Code</label>
+        <div class="ui input">
+          <input
+            name="pocodertCode"
+            placeholder="Port Code"
+            id="valueTransactionID"
+            type="text"
+            [(ngModel)]="code"
+            minlength="5"
+            (keyup.enter)="search()"
+          />
+
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui teal submit button" (click)="search()">Search</div>
+    </div>
+  </div>
+  <h3 class="ui header">
+    Ports <span id="spanPurchases">({{ portsCount }})</span>
+  </h3>
+  <div id="purchases">
+    <table id="purchasesTable" class="ui striped table segment">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Port Code</th>
+          <th>Unctad Port Code</th>
+          <th>Country</th>
+          <th>Latutitude</th>
+          <th>Longitude</th>
+          <th>Url</th>
+          <th>Main Port Code</th>
+          <th>Main Port Name</th>
+          <th>World Map</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let port of ports">
+          <td>{{ port.id }}</td>
+          <td>{{ port.name }}</td>
+          <td>{{ port.portCode }}</td>
+          <td>{{ port.unctadPortCode }}</td>
+          <td>{{ port.country }}</td>
+          <td>{{ port.latitude }}</td>
+          <td>{{ port.longitude }}</td>
+          <td>{{ port.url }}</td>
+          <td>{{ port.mainPortCode }}</td>
+          <td>{{ port?.mainPortName }}</td>
+          <td>
+            <a
+              class="ui icon small primary button"
+              target="_blank"
+              [routerLink]="['/map/']"
+              [queryParams]="{ lat: port.latitude, long: port.longitude }"
+              ><i class="map icon"></i
+            ></a>
+          </td>
+          <td>
+            <a class="ui icon small red button" (click)="delete(port.id)"
+              ><i class="trash icon"></i
+            ></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div
+      id="loadMorePurchasesButton"
+      class="ui labeled icon fluid teal button"
+      *ngIf="pageNum != -1"
+      (click)="GetPorts()"
+    >
+      <i class="circle down icon"></i>
+      Load More
+    </div>
+  </div>
+</div>
