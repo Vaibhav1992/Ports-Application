@@ -22,15 +22,15 @@ namespace PortsDAL
 
         public IEnumerable<DbPort> GetAllPorts(int pageNum, int recordsPerPage)
         {
-            return _context.Ports.Skip(pageNum*recordsPerPage).Take(recordsPerPage);
+            return _context.Ports.Skip(pageNum * recordsPerPage).Take(recordsPerPage);
         }
 
         public IEnumerable<DbPort> GetPorts(PortQuery query)
         {
             var filteredData = _context.Ports;
-            if(!string.IsNullOrEmpty(query.Id))
+            if (query.Id > 0)
             {
-                filteredData = filteredData.FindAll(x => string.Equals(x.ID.ToString(), query.Id, StringComparison.OrdinalIgnoreCase));
+                filteredData = filteredData.FindAll(x => x.ID == query.Id);
             }
             if (!string.IsNullOrEmpty(query.Name))
             {
@@ -46,20 +46,22 @@ namespace PortsDAL
 
         public void AddPort(DbPort port)
         {
-            if(_context.Ports.Exists(x => x.ID == port.ID)) {
+            if (_context.Ports.Exists(x => x.ID == port.ID))
+            {
                 throw new ArgumentException("Port with given ID already exists.");
             }
             _context.Ports.Add(port);
             _context.Save();
         }
 
-        public bool DeletePort(string portId)
+        public void DeletePort(long portId)
         {
             var status = false;
-            var port = _context.Ports.Find(x=>x.ID == portId);
+            var port = _context.Ports.Find(x => x.ID == portId);
+            if (port == null) throw new ArgumentException("Port with given ID does not exists.");
             status = _context.Ports.Remove(port);
             _context.Save();
-            return status;
+
         }
 
         public string GetPortName(string portCode)

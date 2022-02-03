@@ -9,7 +9,7 @@ namespace PortsService
         IEnumerable<Port> GetAllPorts(int pageNum, int recordsPerPage);
         IEnumerable<Port> GetPorts(PortQuery portQuery);
         public void AddPort(Port port);
-        public bool DeletePort(string portId);
+        public void DeletePort(long portId);
         public int GetPortsCount();
         public string GetPortName(string portCode);
     }

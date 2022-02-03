@@ -8,7 +8,7 @@ namespace PortsService.Models
     public class Port
     {
         [Required]
-        public string ID { get; set; }
+        public long ID { get; set; }
 
         [Required]
         public string Name { get; set; }

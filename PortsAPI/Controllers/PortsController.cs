@@ -26,7 +26,7 @@ namespace PortsAPI.Controllers
         public IActionResult Get([FromQuery] PortQuery portQuery)
         {
             var res = new GetPortResponse();
-            if (string.IsNullOrEmpty(portQuery.Name) && string.IsNullOrEmpty(portQuery.Id) && string.IsNullOrEmpty(portQuery.Code))
+            if (string.IsNullOrEmpty(portQuery.Name) && portQuery.Id <= 0 && string.IsNullOrEmpty(portQuery.Code))
             {
                 res.Ports = _portService.GetAllPorts(portQuery.PageNum, portQuery.RecordsPerPage);
                 res.Count = _portService.GetPortsCount();
@@ -43,19 +43,34 @@ namespace PortsAPI.Controllers
 
 
         [HttpDelete]
-        public bool Delete(string portId)
+        public IActionResult Delete(long portId)
         {
-            return _portService.DeletePort(portId);
-
+            try
+            {
+                _portService.DeletePort(portId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody]Port port)
+        public IActionResult Add(Port port)
         {
             try
             {
                 _portService.AddPort(port);
                 return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception ex)
             {

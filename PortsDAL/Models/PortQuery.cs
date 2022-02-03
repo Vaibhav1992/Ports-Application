@@ -7,7 +7,7 @@ namespace PortsDAL.Models
 {
     public class PortQuery
     {
-        public string Id { get; set; }
+        public long ?Id { get; set; }
 
         public string Name { get; set; }
 

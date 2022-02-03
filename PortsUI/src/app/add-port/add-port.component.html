@@ -41,11 +41,16 @@
         <div class="three field wide required field">
           <label>ID</label>
           <input
-            type="text"
+            type="number"
+            min="0"
+            max="9223372036854775806"
             formControlName="ID"
             id="txtId"
             placeholder="Unique Identifier"
           />
+          <span *ngIf="editForm.controls['ID'].errors && editForm.controls['ID'].dirty" style="color: red">
+            ID is not valid.
+          </span>
         </div>
         <div class="three field wide required field">
           <label>Name</label>

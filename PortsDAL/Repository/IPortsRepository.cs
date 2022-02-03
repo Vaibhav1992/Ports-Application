@@ -12,7 +12,7 @@ namespace PortsDAL
 
         public void AddPort(DbPort port);
 
-        public bool DeletePort(string portId);
+        public void DeletePort(long portId);
         public int GetPortsCount();
         public string GetPortName(string portCode);
     }

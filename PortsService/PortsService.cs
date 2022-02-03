@@ -45,9 +45,9 @@ namespace PortsService
             _portsRepository.AddPort(portMapper(port));
         }
 
-        public bool DeletePort(string portId)
+        public void DeletePort(long portId)
         {
-            return _portsRepository.DeletePort(portId);
+            _portsRepository.DeletePort(portId);
         }
         public int GetPortsCount()
         {
